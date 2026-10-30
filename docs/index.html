@@ -27,6 +27,7 @@
       NEPSE Quant Desk
     </a>
     <nav class="nav-links" aria-label="Main">
+      <a href="#app" class="hide-sm">App</a>
       <a href="#dashboard" class="hide-sm">Dashboard</a>
       <a href="#how" class="hide-sm">How it works</a>
       <a href="research.html">Research</a>
@@ -77,6 +78,29 @@
           <div class="v">9.0%<small>vs 7.8%</small></div>
           <div class="s">Ahead, with a smaller worst fall; not significant</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="app" aria-labelledby="app-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2 id="app-h">See the app</h2>
+          <p>What you get when you run it on your own computer. Screenshots are from the real app; personal portfolio details are removed.</p>
+        </div>
+      </div>
+      <div class="shots">
+        <div class="shot-tabs" role="tablist" aria-label="App screens">
+          <button role="tab" id="t-plan" aria-selected="true" aria-controls="p-shot" data-i="0">Daily plan</button>
+          <button role="tab" id="t-stocks" aria-selected="false" aria-controls="p-shot" data-i="1" tabindex="-1">All stocks</button>
+          <button role="tab" id="t-stock" aria-selected="false" aria-controls="p-shot" data-i="2" tabindex="-1">Stock detail</button>
+        </div>
+        <figure class="frame" id="p-shot" role="tabpanel" aria-labelledby="t-plan">
+          <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>localhost:8050</span></div>
+          <img id="shot-img" src="assets/screens/plan.jpg" width="1440" height="900" alt="Daily plan screen: market mood, top 3 buy candidates with stop-loss and target, and stocks close to a buy signal">
+        </figure>
+        <p class="shot-cap" id="shot-cap"><strong>Daily plan.</strong> After each close: is the market healthy, which 3 stocks to buy, where to set stop-loss and target, and why the model likes each one.</p>
       </div>
     </div>
   </section>
@@ -222,6 +246,34 @@ cd nepse-quant-desk
 
 <script src="assets/charts.js"></script>
 <script>
+// app screenshot tabs
+(() => {
+  const shots = [
+    { src: "assets/screens/plan.jpg", alt: "Daily plan screen: market mood, top 3 buy candidates with stop-loss and target, and stocks close to a buy signal",
+      cap: "<strong>Daily plan.</strong> After each close: is the market healthy, which 3 stocks to buy, where to set stop-loss and target, and why the model likes each one." },
+    { src: "assets/screens/stocks.jpg", alt: "All stocks table: every company ranked by model score with signal, price, 1D to 1Y change, RSI and sector",
+      cap: "<strong>All stocks.</strong> Every company ranked by the model, with its signal, returns from 1 day to 1 year, RSI and trend. Search, filter and sort." },
+    { src: "assets/screens/stock.jpg", alt: "Stock detail for NABIL: candlestick chart with target and stop lines, RSI, model score and reasons for the signal",
+      cap: "<strong>Stock detail.</strong> Interactive chart with target and stop lines, RSI, a trade plan, and plain-language reasons behind the signal." },
+  ];
+  const tabs = [...document.querySelectorAll(".shot-tabs [role=tab]")];
+  const img = document.getElementById("shot-img"), cap = document.getElementById("shot-cap"), panel = document.getElementById("p-shot");
+  shots.forEach((s) => { const i = new Image(); i.src = s.src; });  // preload so switching is instant
+  const select = (i, focus) => {
+    tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i); t.tabIndex = k === i ? 0 : -1; });
+    img.src = shots[i].src; img.alt = shots[i].alt; cap.innerHTML = shots[i].cap;
+    panel.setAttribute("aria-labelledby", tabs[i].id);
+    if (focus) tabs[i].focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => select(i));
+    t.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") select((i + 1) % tabs.length, true);
+      if (e.key === "ArrowLeft") select((i + tabs.length - 1) % tabs.length, true);
+    });
+  });
+})();
+
 (() => {
   const pct = (v, d = 1) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(d) + "%";
   const pct0 = (v) => (v < 0 ? "−" : "") + Math.abs(v) + "%";

@@ -181,6 +181,22 @@ td.pos { color: var(--good); }
 .callout svg { flex: none; color: var(--s2); margin-top: 2px; }
 .callout strong { color: var(--text); }
 
+/* ---------- app screenshots ---------- */
+.shot-tabs { display: inline-flex; gap: 4px; padding: 4px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; max-width: 100%; overflow-x: auto; }
+.shot-tabs button {
+  font: 500 15px var(--sans); color: var(--text-2); background: transparent; border: 0; border-radius: 9px;
+  min-height: 40px; padding: 0 16px; cursor: pointer; white-space: nowrap; transition: background-color .15s, color .15s;
+}
+.shot-tabs button:hover { color: var(--text); }
+.shot-tabs button[aria-selected="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(14, 17, 22, 0.08); }
+.frame { margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: 0 2px 4px rgba(14, 17, 22, 0.04), 0 16px 40px rgba(14, 17, 22, 0.10); }
+.frame-bar { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--axis); }
+.frame-bar span { margin: 0 auto; font: 12px var(--mono); color: var(--muted); background: var(--surface); padding: 3px 14px; border-radius: 6px; }
+.frame img { display: block; width: 100%; height: auto; aspect-ratio: 1440 / 900; }
+.shot-cap { color: var(--text-2); margin: 14px 0 0; max-width: 72ch; }
+.shot-cap strong { color: var(--text); }
+
 /* ---------- footer ---------- */
 footer { margin-top: 72px; border-top: 1px solid var(--border); padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; }
