@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEPSE Desk</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230f1720'/><path d='M6 22l6-7 5 4 9-10' stroke='%2334d399' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="/web/style.css?v=4">
+<script src="/web/vendor/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">▲</span> NEPSE Desk</div>
+  <nav id="nav">
+    <a href="#/" data-r="plan">Plan</a>
+    <a href="#/profit" data-r="profit">Profit</a>
+    <a href="#/portfolio" data-r="portfolio">Portfolio</a>
+    <a href="#/stocks" data-r="stocks">Stocks</a>
+    <details class="more" id="more"><summary>More</summary>
+      <div class="menu">
+        <a href="#/today" data-r="today">Market today</a>
+        <a href="#/records" data-r="records">Daily record</a>
+        <a href="#/model" data-r="model">Model &amp; results</a>
+        <a href="#/guide" data-r="guide">How to use</a>
+      </div>
+    </details>
+  </nav>
+  <div class="status" id="status">
+    <span id="statusText">Loading…</span>
+    <button class="btn sm" id="btnUpdate" title="Fetch latest prices and re-run analysis">Update now</button>
+  </div>
+</header>
+<main id="app"></main>
+<div id="modal" class="modal hidden"><div class="modal-card" id="modalCard"></div></div>
+<div id="toast" class="toast hidden"></div>
+<script src="/web/app.js?v=4"></script>
+</body>
+</html>

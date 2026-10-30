@@ -1,0 +1,44 @@
+# ---- Private data: portfolio, trades, notes, logs, downloaded prices, trained model ----
+data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.log
+
+# ---- Generated research output ----
+research/out/
+
+# ---- Personal launchers / local-only scripts ----
+*.command
+local/
+scratch/
+
+# ---- Secrets (never commit) ----
+.env
+.env.*
+*.pem
+*.key
+secrets*
+credentials*
+
+# ---- Python ----
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ---- LaTeX build files ----
+*.aux
+*.bbl
+*.blg
+*.out
+*.synctex.gz
+
+# ---- OS / editors ----
+.DS_Store
+.vscode/
+.idea/
+*.swp
