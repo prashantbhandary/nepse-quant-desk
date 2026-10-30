@@ -2,7 +2,7 @@
 
 **A walk-forward evaluation with realistic trading costs**
 
-**Prashant Bhandari** · [digistartnp@gmail.com](mailto:digistartnp@gmail.com) · October 2026
+**Prashant Bhandari** · [santhprashant@gmail.com](mailto:santhprashant@gmail.com) · October 2026
 
 > Every number in this document can be regenerated with `python -m research.reproduce` (see [Reproducing the results](#reproducing-the-results)).
 

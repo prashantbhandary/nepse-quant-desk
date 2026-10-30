@@ -58,6 +58,6 @@ docs/        research report and the GitHub Pages site
 
 ## License & author
 
-[MIT](LICENSE) © 2026 **Prashant Bhandari** · [digistartnp@gmail.com](mailto:digistartnp@gmail.com)
+[MIT](LICENSE) © 2026 **Prashant Bhandari** · [santhprashant@gmail.com](mailto:santhprashant@gmail.com)
 
 Price data: [Aabishkar2/nepse-data](https://github.com/Aabishkar2/nepse-data) and [nepalstock.com.np](https://www.nepalstock.com.np). Charts: [Lightweight Charts](https://github.com/tradingview/lightweight-charts) (Apache 2.0).
