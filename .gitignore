@@ -1,5 +1,5 @@
 # ---- Private data: portfolio, trades, notes, logs, downloaded prices, trained model ----
-data/
+/data/
 *.db
 *.db-journal
 *.sqlite

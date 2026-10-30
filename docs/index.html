@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEPSE Quant Desk</title>
+<meta name="description" content="Machine-learning stock ranking on the Nepal Stock Exchange: an honest walk-forward backtest with real trading costs, by Prashant Bhandari.">
+<meta name="author" content="Prashant Bhandari">
+<meta property="og:title" content="NEPSE Quant Desk: ML stock ranking on the Nepal Stock Exchange">
+<meta property="og:description" content="A model that ranks NEPSE stocks well, and an honest look at why that still doesn't beat buy-and-hold after costs.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232a78d6' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17l6-6 4 4 8-8'/%3E%3Cpath d='M15 7h6v6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/theme.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="NEPSE Quant Desk home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+      NEPSE Quant Desk
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#dashboard" class="hide-sm">Dashboard</a>
+      <a href="#how" class="hide-sm">How it works</a>
+      <a href="research.html">Research</a>
+      <a href="https://github.com/prashantbhandary/nepse-quant-desk" aria-label="Source code on GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+      </a>
+      <button class="icon-btn" id="theme" type="button" aria-label="Toggle theme"></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Walk-forward 2016 → 2026 · 369 stocks · real costs</span>
+      <h1>Machine learning that <em>ranks</em> NEPSE stocks, tested honestly.</h1>
+      <p class="lede">A gradient-boosted model scores every listed company on the Nepal Stock Exchange each day. Its ranking is statistically strong. But once you trade at the next day's open and pay commission, slippage and tax, it does not beat simply holding the market. This site shows both halves of that story.</p>
+      <p class="byline">By <strong>Prashant Bhandari</strong> · <a href="mailto:digistartnp@gmail.com">digistartnp@gmail.com</a> · October 2026</p>
+      <div class="cta">
+        <a class="btn primary" href="#dashboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg>
+          View the dashboard
+        </a>
+        <a class="btn" href="research.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>
+          Read the research
+        </a>
+      </div>
+
+      <div class="tiles" role="list">
+        <div class="tile" role="listitem">
+          <div class="k">Ranking skill (mean daily IC)</div>
+          <div class="v">0.093<small>t = 6.2</small></div>
+          <div class="s"><span class="tag good">Strong</span> 3× a pure momentum signal (0.032)</div>
+        </div>
+        <div class="tile" role="listitem">
+          <div class="k">Top vs bottom decile, per 20 days</div>
+          <div class="v">+2.55%<small>t = 5.1</small></div>
+          <div class="s">Returns rise steadily across all 10 deciles</div>
+        </div>
+        <div class="tile" role="listitem">
+          <div class="k">Strategy CAGR 2016–2026</div>
+          <div class="v">6.4%<small>vs 17.9%</small></div>
+          <div class="s"><span class="tag bad">Below</span> equal-weight buy &amp; hold</div>
+        </div>
+        <div class="tile" role="listitem">
+          <div class="k">Strategy CAGR 2021–2026</div>
+          <div class="v">9.0%<small>vs 7.8%</small></div>
+          <div class="s">Ahead, with a smaller worst fall; not significant</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="dashboard" aria-labelledby="dash-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2 id="dash-h">Backtest dashboard</h2>
+          <p>Every year is predicted by a model trained only on earlier years. Trades fill at the next open with 0.9% cost per side and 7.5% capital-gains tax. Hover or tap any chart for exact values.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Growth of Rs 1</h3>
+          <p class="sub">Weekly, after costs and tax, log scale. Top-3 model with market filter vs equal-weight buy &amp; hold.</p>
+          <ul class="legend">
+            <li><i style="background:var(--s1)"></i>Model (top 3, market filter)</li>
+            <li><i style="background:var(--s2)"></i>Buy &amp; hold</li>
+            <li style="color:var(--s3)"><i class="dash"></i><span style="color:var(--text-2)">Model without filter</span></li>
+          </ul>
+          <div class="chart" id="c-curve" style="min-height:320px"><p class="loading">Loading chart…</p></div>
+        </article>
+
+        <article class="card span-8">
+          <h3>Calendar-year returns</h3>
+          <p class="sub">The model holds cash in 2016 (not enough training data yet).</p>
+          <ul class="legend">
+            <li><i class="sq" style="background:var(--s1)"></i>Model</li>
+            <li><i class="sq" style="background:var(--s2)"></i>Buy &amp; hold</li>
+          </ul>
+          <div class="chart" id="c-yearly"></div>
+        </article>
+
+        <article class="card span-4">
+          <h3>Strategy summary</h3>
+          <p class="sub">CAGR by period and worst fall (MDD).</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Strategy</th><th>16–20</th><th>21–26</th><th>MDD</th></tr></thead>
+              <tbody>
+                <tr class="hl"><td>Model, filter</td><td>2.5%</td><td>9.0%</td><td class="neg">−41.7%</td></tr>
+                <tr><td>Model, no filter</td><td>5.1%</td><td>−6.0%</td><td class="neg">−63.4%</td></tr>
+                <tr><td>Momentum, filter</td><td>6.9%</td><td>1.8%</td><td class="neg">−53.1%</td></tr>
+                <tr><td>Buy &amp; hold</td><td>30.0%</td><td>7.8%</td><td class="neg">−48.2%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="sub" style="margin-top:12px">177 trades · 42.9% profitable · winners +13.8% vs losers −7.2% on average.</p>
+        </article>
+
+        <article class="card span-6">
+          <h3>Forward return by score decile</h3>
+          <p class="sub">Average 20-day return from the next open. The ranking clearly works.</p>
+          <div class="chart" id="c-deciles"></div>
+        </article>
+
+        <article class="card span-6">
+          <h3>Information coefficient by year</h3>
+          <p class="sub">Daily Spearman correlation of score with 20-day forward return.</p>
+          <ul class="legend">
+            <li><i class="sq" style="background:var(--s1)"></i>Model</li>
+            <li><i class="sq" style="background:var(--s2)"></i>60-day momentum</li>
+          </ul>
+          <div class="chart" id="c-ic"></div>
+        </article>
+
+        <article class="card span-6">
+          <h3>Costs decide the outcome</h3>
+          <p class="sub">2016–2026 CAGR as commission + slippage per side rises. Baseline is 0.90%.</p>
+          <div class="chart" id="c-costs"></div>
+        </article>
+
+        <article class="card span-6">
+          <h3>How many stocks to hold?</h3>
+          <p class="sub">CAGR by number of holdings. No setting beats buy &amp; hold over the full period.</p>
+          <ul class="legend">
+            <li><i class="sq" style="background:var(--s1)"></i>2016–2020</li>
+            <li><i class="sq" style="background:var(--s2)"></i>2021–2026</li>
+          </ul>
+          <div class="chart" id="c-topn"></div>
+        </article>
+
+        <article class="card">
+          <h3>Tradable universe</h3>
+          <p class="sub">Average liquid stocks per day (turnover ≥ Rs 5M, price ≥ Rs 100). Early years rest on very few names.</p>
+          <div class="chart" id="c-universe"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2 id="how-h">How it works</h2>
+          <p>The same pipeline runs every trading day inside the local app.</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="n">01 · Data</div><h3>15 years of prices</h3><p>Daily OHLCV for ~370 companies since 2011, adjusted for bonus and rights issues using NEPSE's daily price limit.</p></div>
+        <div class="step"><div class="n">02 · Features</div><h3>35 signals per stock</h3><p>Returns, trend, volatility, liquidity, 52-week range, market breadth and cross-sectional ranks.</p></div>
+        <div class="step"><div class="n">03 · Model</div><h3>3-model ensemble</h3><p>Gradient-boosted trees predict market-relative returns; their daily ranks are averaged into one score.</p></div>
+        <div class="step"><div class="n">04 · Strategy</div><h3>Top 3, every 2 weeks</h3><p>Hold the 3 best-ranked stocks, sell below rank 30, and go to cash when market breadth is weak.</p></div>
+      </div>
+
+      <div class="callout" style="margin-top:24px" role="note">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+        <div><strong>Not financial advice.</strong> The edge is real but small, and costs absorb most of it. The model cannot see news, NRB policy, dividends or manipulation, and the panel has some survivorship bias. Past results don't guarantee the future.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="run-h">
+    <div class="wrap">
+      <div class="grid">
+        <article class="card span-6">
+          <h2 id="run-h" style="font-size:22px;margin:0 0 8px">Run it yourself</h2>
+          <p class="sub" style="font-size:15px">The full app (daily signals, portfolio tracker with real fees and tax, stock explorer) runs privately on your own computer.</p>
+<pre style="background:var(--surface-2);border-radius:10px;padding:14px;overflow-x:auto;font:13px/1.6 var(--mono);margin:0 0 14px"><code>git clone https://github.com/prashantbhandary/nepse-quant-desk.git
+cd nepse-quant-desk
+./start.sh</code></pre>
+          <a class="btn" href="https://github.com/prashantbhandary/nepse-quant-desk">View source on GitHub</a>
+        </article>
+        <article class="card span-6">
+          <h2 style="font-size:22px;margin:0 0 8px">Read the full study</h2>
+          <p class="sub" style="font-size:15px">Data cleaning, the bonus/rights adjustment, walk-forward design, robustness checks (random ranking, costs, tree settings, feature importance) and limitations.</p>
+          <a class="btn primary" href="research.html">Open the research report</a>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 <strong style="color:var(--text)">Prashant Bhandari</strong> · <a href="mailto:digistartnp@gmail.com">digistartnp@gmail.com</a></span>
+    <span><a href="https://github.com/prashantbhandary/nepse-quant-desk">GitHub</a> · MIT License · Data: <a href="https://github.com/Aabishkar2/nepse-data">Aabishkar2/nepse-data</a></span>
+  </div>
+</footer>
+
+<script src="assets/charts.js"></script>
+<script>
+(() => {
+  const pct = (v, d = 1) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(d) + "%";
+  const pct0 = (v) => (v < 0 ? "−" : "") + Math.abs(v) + "%";
+  const years = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
+
+  Charts.bars(document.getElementById("c-yearly"), {
+    label: "Calendar-year returns, model vs buy and hold",
+    cats: years.map(String),
+    series: [
+      { name: "Model", color: "--s1", values: [0, -13.6, -10.08, -1.15, 47.34, 60.49, -11.94, -1.92, 34.17, -1.17, -5.54] },
+      { name: "Buy & hold", color: "--s2", values: [87.25, 8.51, -15.99, -0.63, 118.49, 46.46, -19.92, 1.17, 38.58, -1.65, -1.27] },
+    ],
+    yFmt: pct0, tipFmt: (v) => pct(v), height: 280,
+  });
+
+  Charts.bars(document.getElementById("c-deciles"), {
+    label: "Average 20-day forward return by score decile",
+    cats: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+    series: [{ name: "20-day return", color: "--s1", values: [-0.085, -0.069, 0.273, 0.432, 0.681, 0.89, 1.183, 1.51, 1.79, 2.25] }],
+    yFmt: (v) => v.toFixed(1) + "%", tipFmt: (v) => pct(v, 2), tipTitle: (c) => "Decile " + c + (c === "1" ? " (lowest)" : c === "10" ? " (highest)" : ""),
+  });
+
+  Charts.bars(document.getElementById("c-ic"), {
+    label: "Information coefficient by year, model vs momentum",
+    cats: ["2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"],
+    series: [
+      { name: "Model", color: "--s1", values: [0.1741, 0.059, 0.1172, -0.0013, 0.0114, 0.0633, 0.0967, 0.1724, 0.0711, 0.1607] },
+      { name: "Momentum", color: "--s2", values: [0.16, -0.0386, 0.0567, 0.0527, 0.0337, -0.0418, 0.0947, -0.0019, -0.034, 0.0403] },
+    ],
+    yFmt: (v) => v.toFixed(2), tipFmt: (v) => v.toFixed(3),
+  });
+
+  Charts.bars(document.getElementById("c-costs"), {
+    label: "CAGR by trading cost per side",
+    cats: ["0.00%", "0.45%", "0.90%", "1.35%", "1.80%"],
+    series: [{ name: "CAGR 2016–26", color: "--s1", values: [17.1, 11.7, 6.4, 1.4, -3.3] }],
+    yFmt: pct0, tipFmt: (v) => pct(v), highlight: 2,
+    tipTitle: (c) => c + " per side" + (c === "0.90%" ? " (baseline)" : ""),
+  });
+
+  Charts.bars(document.getElementById("c-topn"), {
+    label: "CAGR by number of holdings",
+    cats: ["1", "2", "3", "5", "10"],
+    series: [
+      { name: "2016–2020", color: "--s1", values: [-0.3, 4.2, 2.5, -2.9, -0.2] },
+      { name: "2021–2026", color: "--s2", values: [10.7, 17.5, 9.0, 9.5, 9.1] },
+    ],
+    yFmt: pct0, tipFmt: (v) => pct(v), tipTitle: (c) => c + (c === "1" ? " stock" : " stocks") + (c === "3" ? " (used)" : ""),
+  });
+
+  Charts.bars(document.getElementById("c-universe"), {
+    label: "Average tradable stocks per day by year",
+    cats: ["2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"],
+    series: [{ name: "Stocks / day", color: "--s1", values: [1, 1.9, 5, 18.4, 14.2, 37.1, 34.3, 17.9, 18.7, 69.4, 126.3, 89.3, 83.8, 188.8, 196.6, 164.9] }],
+    yFmt: (v) => v, tipFmt: (v) => Math.round(v), height: 220,
+  });
+
+  fetch("data/curve.csv").then((r) => r.text()).then((txt) => {
+    // blank cells (e.g. the 2020 lockdown closure) carry the last value forward
+    const prev = [];
+    const rows = txt.trim().split("\n").slice(1).map((l) => l.split(",").map((v, i) => (v === "" ? prev[i] : (prev[i] = v))));
+    const host = document.getElementById("c-curve");
+    host.innerHTML = "";
+    const fmtD = new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" });
+    Charts.line(host, {
+      label: "Growth of one rupee, 2016 to 2026, model vs buy and hold",
+      x: rows.map((r) => new Date(r[0] + "T00:00:00")),
+      series: [
+        { name: "Model", color: "--s1", values: rows.map((r) => +r[1]) },
+        { name: "Buy & hold", color: "--s2", values: rows.map((r) => +r[2]) },
+        { name: "No filter", color: "--s3", values: rows.map((r) => +r[3]), dash: true },
+      ],
+      log: true, height: 320,
+      yFmt: (v) => "Rs " + v, tipFmt: (v) => "Rs " + v.toFixed(2), xFmt: (d) => fmtD.format(d),
+    });
+  }).catch(() => {
+    document.getElementById("c-curve").innerHTML = '<p class="loading">Could not load chart data. <a href="data/curve.csv">Download the CSV</a>.</p>';
+  });
+})();
+</script>
+</body>
+</html>
