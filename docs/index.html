@@ -14,8 +14,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Fira+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=3">
-<script src="assets/theme.js?v=3"></script>
+<link rel="stylesheet" href="assets/site.css?v=4">
+<style>
+/* ---------- app screenshots ---------- */
+.shot-tabs { display: inline-flex; gap: 4px; padding: 4px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; max-width: 100%; overflow-x: auto; }
+.shot-tabs button {
+  font: 500 15px var(--sans); color: var(--text-2); background: transparent; border: 0; border-radius: 9px;
+  min-height: 40px; padding: 0 16px; cursor: pointer; white-space: nowrap; transition: background-color .15s, color .15s;
+}
+.shot-tabs button:hover { color: var(--text); }
+.shot-tabs button[aria-selected="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(14, 17, 22, 0.08); }
+.frame { margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: 0 2px 4px rgba(14, 17, 22, 0.04), 0 16px 40px rgba(14, 17, 22, 0.10); }
+.frame-bar { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+.frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--axis); }
+.frame-bar span { margin: 0 auto; font: 12px var(--mono); color: var(--muted); background: var(--surface); padding: 3px 14px; border-radius: 6px; }
+.frame img { display: block; width: 100%; height: auto; aspect-ratio: 1440 / 900; }
+.shot-cap { color: var(--text-2); margin: 14px 0 0; max-width: 72ch; }
+.shot-cap strong { color: var(--text); }
+</style>
+<script src="assets/theme.js?v=4"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -87,20 +104,22 @@
       <div class="sec-head">
         <div>
           <h2 id="app-h">See the app</h2>
-          <p>What you get when you run it on your own computer. Screenshots are from the real app; personal portfolio details are removed.</p>
+          <p>What you get when you run it on your own computer. Real market data, with a <strong>demo portfolio</strong> filled in to show how tracking works.</p>
         </div>
       </div>
       <div class="shots">
         <div class="shot-tabs" role="tablist" aria-label="App screens">
-          <button role="tab" id="t-plan" aria-selected="true" aria-controls="p-shot" data-i="0">Daily plan</button>
-          <button role="tab" id="t-stocks" aria-selected="false" aria-controls="p-shot" data-i="1" tabindex="-1">All stocks</button>
-          <button role="tab" id="t-stock" aria-selected="false" aria-controls="p-shot" data-i="2" tabindex="-1">Stock detail</button>
+          <button role="tab" id="t-0" aria-selected="true" aria-controls="p-shot">Daily plan</button>
+          <button role="tab" id="t-1" aria-selected="false" aria-controls="p-shot" tabindex="-1">Market today</button>
+          <button role="tab" id="t-2" aria-selected="false" aria-controls="p-shot" tabindex="-1">Portfolio</button>
+          <button role="tab" id="t-3" aria-selected="false" aria-controls="p-shot" tabindex="-1">All stocks</button>
+          <button role="tab" id="t-4" aria-selected="false" aria-controls="p-shot" tabindex="-1">Stock detail</button>
         </div>
-        <figure class="frame" id="p-shot" role="tabpanel" aria-labelledby="t-plan">
+        <figure class="frame" id="p-shot" role="tabpanel" aria-labelledby="t-0">
           <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>localhost:8050</span></div>
-          <img id="shot-img" src="assets/screens/plan.jpg" width="1440" height="900" alt="Daily plan screen: market mood, top 3 buy candidates with stop-loss and target, and stocks close to a buy signal">
+          <img id="shot-img" src="assets/screens/plan.jpg" width="1440" height="900" alt="">
         </figure>
-        <p class="shot-cap" id="shot-cap"><strong>Daily plan.</strong> After each close: is the market healthy, which 3 stocks to buy, where to set stop-loss and target, and why the model likes each one.</p>
+        <p class="shot-cap" id="shot-cap"></p>
       </div>
     </div>
   </section>
@@ -244,16 +263,20 @@ cd nepse-quant-desk
   </div>
 </footer>
 
-<script src="assets/charts.js?v=3"></script>
+<script src="assets/charts.js?v=4"></script>
 <script>
 // app screenshot tabs
 (() => {
   const shots = [
-    { src: "assets/screens/plan.jpg", alt: "Daily plan screen: market mood, top 3 buy candidates with stop-loss and target, and stocks close to a buy signal",
-      cap: "<strong>Daily plan.</strong> After each close: is the market healthy, which 3 stocks to buy, where to set stop-loss and target, and why the model likes each one." },
+    { src: "assets/screens/plan.jpg", alt: "Daily plan: monthly profit vs target, market health, what to sell, buy and keep",
+      cap: "<strong>Daily plan.</strong> One page for the next trading day: what to sell, what to buy, what to keep, and this month's profit against your target." },
+    { src: "assets/screens/market.jpg", alt: "Market today: market mood, advances and declines, top 3 buy candidates with stop-loss and target",
+      cap: "<strong>Market today.</strong> Is the market healthy? The top 3 picks with buy limit, stop-loss and target, and why the model likes each one." },
+    { src: "assets/screens/portfolio.jpg", alt: "Portfolio: holdings with cost, current value, profit after fees and tax, and the model's view of each",
+      cap: "<strong>Portfolio.</strong> What you own, what it's worth, and the profit you'd actually keep after commission, SEBON fee, DP charge and tax." },
     { src: "assets/screens/stocks.jpg", alt: "All stocks table: every company ranked by model score with signal, price, 1D to 1Y change, RSI and sector",
       cap: "<strong>All stocks.</strong> Every company ranked by the model, with its signal, returns from 1 day to 1 year, RSI and trend. Search, filter and sort." },
-    { src: "assets/screens/stock.jpg", alt: "Stock detail for NABIL: candlestick chart with target and stop lines, RSI, model score and reasons for the signal",
+    { src: "assets/screens/stock.jpg", alt: "Stock detail: candlestick chart with target and stop lines, RSI, model score and reasons for the signal",
       cap: "<strong>Stock detail.</strong> Interactive chart with target and stop lines, RSI, a trade plan, and plain-language reasons behind the signal." },
   ];
   const tabs = [...document.querySelectorAll(".shot-tabs [role=tab]")];
@@ -265,6 +288,7 @@ cd nepse-quant-desk
     panel.setAttribute("aria-labelledby", tabs[i].id);
     if (focus) tabs[i].focus();
   };
+  select(0);
   tabs.forEach((t, i) => {
     t.addEventListener("click", () => select(i));
     t.addEventListener("keydown", (e) => {
